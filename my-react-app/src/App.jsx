@@ -226,53 +226,127 @@
 // export default App;         
 
 
-import { useEffect, useState } from 'react';
-import './App.css';
 
-function App() {
-  const [data, setData] = useState([]);
 
-  useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then(res => res.json())
-      .then(data => setData(data));
-  }, []);
+
+
+// import {useState} from "react";
+// import Title from "./components/Title.jsx";
+// function App() {
+//   const [count, setCount]=useState(0);
+//   return(
+//     <>
+//     <Title count={count} />
+//     <button onClick={() => setCount(count + 1)}>Click me</button>
+//     </>
+//   );
+// }
+// export default App;
+
+
+
+// import { useState } from 'react'
+
+// export default function App() {
+//   const [text, setText] = useState('')
+
+//   return (
+//     <div style={{ padding: 40 }}>
+//       <input
+//         type="text"
+//         placeholder="Type Here..."
+//         value={text}
+//         onChange={(e) => setText(e.target.value)}
+//       />
+//       <h2>You typed: {text}</h2>
+//     </div>
+//   )
+// }
+
+import { useState } from "react";
+
+const App = () => {
+  const [form, setForm] = useState({
+    firstName: "",
+    email: "",
+    age: "",
+  });
+
+  const [submitted, setSubmitted] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSubmitted(form);
+  };
 
   return (
     <div>
-      <h2>User Details</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Address</th>
-            <th>Phone</th>
-            <th>Website</th>
-            <th>Company</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map(user => (
-            <tr key={user.id}>
-              <td>{user.id}</td>
-              <td>{user.name}</td>
-              <td>{user.username}</td>
-              <td>{user.email}</td>
-              <td>{JSON.stringify(user.address)}</td>
-              <td>{user.phone}</td>
-              <td>{user.website}</td>
-              <td>{JSON.stringify(user.company)}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <h1>Registration Form</h1>
+
+      <form onSubmit={handleSubmit}>
+        <label>First Name:</label>
+        <input
+          name="firstName"
+          value={form.firstName}
+          onChange={handleChange}
+          required
+        />
+
+        <br /><br />
+
+        <label>Email:</label>
+        <input
+          name="email"
+          type="email"
+          value={form.email}
+          onChange={handleChange}
+          required
+        />
+
+        <br /><br />
+
+        <label>Age:</label>
+        <input
+          name="age"
+          type="number"
+          value={form.age}
+          onChange={handleChange}
+          required
+        />
+
+        <br /><br />
+
+        <button type="submit">Submit</button>
+      </form>
+
+      {submitted && (
+        <div>
+          <h2>Submitted Details</h2>
+          <p>First Name: {submitted.firstName}</p>
+          <p>Email: {submitted.email}</p>
+          <p>Age: {submitted.age}</p>
+        </div>
+      )}
     </div>
   );
-}
+};
 
 export default App;
+
+
+
+
+
+
+
+
+
+
+
 
 
